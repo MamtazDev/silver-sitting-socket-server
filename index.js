@@ -1,10 +1,17 @@
-const io = require("socket.io")(8900, {
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
   cors: {
     origin: "http://localhost:3000",
   },
 });
 
-let users = [];
+
+
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -18,6 +25,7 @@ const removeUser = (socketId) => {
 const getUser = (userId) => {
   return users.find((user) => user.userId === userId);
 };
+
 
 io.on("connection", (socket) => {
   //when ceonnect
@@ -48,3 +56,17 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 });
+
+
+
+// Add a basic endpoint for testing
+app.get("/", (req, res) => {
+  res.send("Server is running.");
+});
+
+// Start the server
+const PORT = process.env.PORT || 8900;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
