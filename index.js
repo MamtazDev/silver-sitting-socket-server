@@ -11,7 +11,7 @@ const io = socketIo(server, {
 });
 
 
-
+let users = [];
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -67,6 +67,6 @@ app.get("/", (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 8900;
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`updated chat  is running on port ${PORT}`);
 });
 
