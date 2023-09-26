@@ -1,4 +1,11 @@
-const io = require("socket.io")(8900, {
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+
+const app = express();
+const server = http.createServer(app);
+
+const io = socketIo(server, {
   cors: {
     origin: "https://silver-sitting-nextjs.vercel.app",
   },
@@ -46,4 +53,15 @@ io.on("connection", (socket) => {
     removeUser(socket.id);
     io.emit("getUsers", users);
   });
+});
+
+// Add a basic endpoint for testing
+app.get("/", (req, res) => {
+  res.send("Server is running.");
+});
+
+// Start the server
+const PORT = process.env.PORT || 8900;
+server.listen(PORT, () => {
+  console.log(`updated chat  is running on port ${PORT}`);
 });
