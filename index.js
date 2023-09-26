@@ -1,6 +1,6 @@
 const io = require("socket.io")(8900, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://silver-sitting-nextjs.vercel.app",
   },
 });
 
@@ -32,7 +32,6 @@ io.on("connection", (socket) => {
   //send and get message
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
     console.log("user send Message!: ", senderId, receiverId, text);
-
 
     const user = getUser(receiverId);
     io.to(user?.socketId).emit("getMessage", {
